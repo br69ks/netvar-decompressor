@@ -62,6 +62,13 @@ void CorrectProps(SendTable *table)
 			continue;
 		}
 
+		auto flags = prop->GetFlags();
+		if (flags & SPROP_ENCODED_AGAINST_TICKCOUNT)
+		{
+			flags &= ~SPROP_ENCODED_AGAINST_TICKCOUNT;
+			prop->SetFlags(flags);
+		}
+
 		switch (prop->GetType())
 		{
 			case DPT_Float:
@@ -69,6 +76,7 @@ void CorrectProps(SendTable *table)
 			case DPT_VectorXY:
 				prop->SetFlags(SPROP_NOSCALE);
 				prop->m_nBits = 32;
+				break;
 		}
 	}
 }
